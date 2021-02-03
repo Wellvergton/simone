@@ -1,0 +1,38 @@
+.light-button {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  filter: brightness(70%);
+}
+
+.light-button.lit {
+  filter: brightness(100%);
+}
+
+.light-button.disabled {
+  pointer-events: none;
+}
+
+.light-button:hover {
+  cursor: pointer;
+}
+
+.top-left {
+  border-top-left-radius: 100%;
+  background-color: lime;
+}
+
+.top-right {
+  border-top-right-radius: 100%;
+  background-color: magenta;
+}
+
+.bottom-left {
+  border-bottom-left-radius: 100%;
+  background-color: yellow;
+}
+
+.bottom-right {
+  border-bottom-right-radius: 100%;
+  background-color: cyan;
+}
