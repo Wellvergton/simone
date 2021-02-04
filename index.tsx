@@ -25,7 +25,12 @@ const timer = new Timer();
 const game = new Game(timer);
 let interval: ReturnType<typeof setInterval>;
 
-const Simone: React.FC = () => {
+interface Props {
+  onStart(): void;
+  onStop(): void;
+}
+
+const Simone: React.FC<Props> = (props) => {
   const [isPlaying, setIsPlaying] = useState<Boolean>(false);
   const [moves, setMoves] = useState<Array<Position>>([]);
   const [litButton, setLitButton] = useState<Position | "all" | null>(null);
@@ -73,13 +78,16 @@ const Simone: React.FC = () => {
   function InitGame() {
     setIsPlaying(true);
     game.init();
+    props.onStart();
   }
 
   function stopGame() {
     setStatus("stopped");
     setIsPlaying(false);
+    setMoves([]);
     game.destroy();
     clearInterval(interval);
+    props.onStop();
   }
 
   function errorAlert() {
@@ -96,9 +104,7 @@ const Simone: React.FC = () => {
   useEffect(() => {
     async function gameOver() {
       await errorAlert();
-      setIsPlaying(false);
-      setMoves([]);
-      game.destroy();
+      stopGame();
     }
 
     game.on("newMove", setMoves);
@@ -107,6 +113,7 @@ const Simone: React.FC = () => {
     game.on("wrongMove", gameOver);
 
     timer.subscribe(gameOver);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(showMoves, [moves]);
   useEffect(() => {
