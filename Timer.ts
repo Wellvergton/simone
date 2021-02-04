@@ -10,10 +10,6 @@ class Timer {
     this.subscriptions.push(subscription);
   }
 
-  public unsubscribe(subscription: Function): void {
-    this.subscriptions.splice(this.subscriptions.indexOf(subscription));
-  }
-
   public init(): void {
     this.timeout = setTimeout(() => this.notify(), 5000);
   }
