@@ -7,6 +7,7 @@ import {
   IonText,
 } from "@ionic/react";
 import { power } from "ionicons/icons";
+import GameRules from "./GameRules";
 import LightButton from "./LightButton";
 import React, { useEffect, useState } from "react";
 import "./index.css";
@@ -26,8 +27,11 @@ const game = new Game(timer);
 let interval: ReturnType<typeof setInterval>;
 
 interface Props {
+  showRules: boolean;
+  onDismissRules(): void;
   onStart(): void;
   onStop(): void;
+  onNewRecord(value: any): void;
 }
 
 const Simone: React.FC<Props> = (props) => {
@@ -109,6 +113,7 @@ const Simone: React.FC<Props> = (props) => {
 
     game.on("newMove", setMoves);
     game.on("newRecord", setRecord);
+    game.on("newRecord", props.onNewRecord);
     game.on("timeout", gameOver);
     game.on("wrongMove", gameOver);
 
@@ -124,6 +129,7 @@ const Simone: React.FC<Props> = (props) => {
 
   return (
     <>
+      <GameRules isOpen={props.showRules} onDismiss={props.onDismissRules} />
       <main>
         <div>{[lightButtons[0], lightButtons[1]]}</div>
         <div>{[lightButtons[2], lightButtons[3]]}</div>
