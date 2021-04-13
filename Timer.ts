@@ -1,5 +1,5 @@
 class Timer {
-  private timeout: ReturnType<typeof setTimeout> = setTimeout(() => { }, 0);
+  private timeout: ReturnType<typeof setTimeout> = setTimeout(() => {}, 0);
   private subscriptions: Array<Function> = [];
 
   private notify(): void {
@@ -8,6 +8,10 @@ class Timer {
 
   public subscribe(subscription: Function): void {
     this.subscriptions.push(subscription);
+  }
+
+  public unsubscribeAll(): void {
+    this.subscriptions = [];
   }
 
   public init(): void {
