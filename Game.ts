@@ -1,7 +1,12 @@
 import Timer from "./Timer";
 import type { Position, GameEvent } from "./types";
 
-const positions: Array<Position> = ["upLeft", "upRight", "downLeft", "downRight"];
+const positions: Array<Position> = [
+  "upLeft",
+  "upRight",
+  "downLeft",
+  "downRight",
+];
 
 class Game {
   constructor(timer: Timer) {
@@ -18,10 +23,16 @@ class Game {
     newRecord: Array<Function>(),
     wrongMove: Array<Function>(),
     timeout: Array<Function>(),
-  }
+  };
 
   public on(event: GameEvent, callback: Function): void {
     this.events[event].push(callback);
+  }
+
+  public unsubscribeAll(): void {
+    for (let event in this.events) {
+      this.events[event as GameEvent] = [];
+    }
   }
 
   private notify(event: GameEvent, value?: any): void {
@@ -41,6 +52,10 @@ class Game {
     this.addMove();
   }
 
+  public setRecord(value: number) {
+    this.record = value;
+  }
+
   public destroy(): void {
     this.isPlaying = false;
     this.moves = [];
@@ -55,7 +70,9 @@ class Game {
     const userInputsLength = this.userInputs.length;
     const movesLength = this.moves.length;
 
-    if (this.userInputs[userInputsLength - 1] !== this.moves[userInputsLength - 1]) {
+    if (
+      this.userInputs[userInputsLength - 1] !== this.moves[userInputsLength - 1]
+    ) {
       this.notify("wrongMove");
       this.destroy();
     } else if (userInputsLength === movesLength) {
