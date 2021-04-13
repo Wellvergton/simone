@@ -156,7 +156,7 @@ const Simone: React.FC<Props> = (props) => {
           <IonIcon icon={power} color={isPlaying ? "danger" : "success"} />
         </IonButton>
       </main>
-      <IonGrid>
+      <IonGrid className="stats">
         <IonRow>
           <IonCol className="ion-text-center">
             Record: <IonText color="primary">{record}</IonText>
