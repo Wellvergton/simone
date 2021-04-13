@@ -28,6 +28,7 @@ let interval: ReturnType<typeof setInterval>;
 
 interface Props {
   showRules: boolean;
+  record: number;
   onDismissRules(): void;
   onStart(): void;
   onStop(): void;
@@ -96,7 +97,6 @@ const Simone: React.FC<Props> = (props) => {
 
   function errorAlert() {
     setLitButton("all");
-
     return new Promise((resolve) => {
       setTimeout(() => {
         setLitButton(null);
@@ -118,6 +118,13 @@ const Simone: React.FC<Props> = (props) => {
     game.on("wrongMove", gameOver);
 
     timer.subscribe(gameOver);
+
+    return () => {
+      timer.unsubscribeAll();
+      timer.clear();
+      game.unsubscribeAll();
+      game.destroy();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(showMoves, [moves]);
@@ -126,6 +133,11 @@ const Simone: React.FC<Props> = (props) => {
       timer.init();
     }
   }, [status]);
+
+  useEffect(() => {
+    setRecord(props.record);
+    game.setRecord(props.record);
+  }, [props.record]);
 
   return (
     <>
